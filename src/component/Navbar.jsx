@@ -38,21 +38,21 @@ export default function Navbar() {
 
   return (
     <nav className="sticky top-0 z-50 bg-white dark:bg-slate-950 border-b border-gray-200 dark:border-slate-800 shadow-sm transition-colors duration-300">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
+      <div className="max-w-screen-2xl container mx-auto md:px-20 px-4  ">
+        <div className="flex justify-between items-center h-24">
+          <div>
           {/* Logo */}
           <Link
             href="/"
             className="flex items-center gap-2 group"
           >
-            <div className="w-8 h-8 bg-black dark:bg-white rounded-lg flex items-center justify-center group-hover:shadow-lg group-hover:scale-105 transition-all duration-300">
-              <span className="text-white dark:text-black font-bold text-sm">R</span>
-            </div>
-            <span className="font-bold text-xl text-black dark:text-white hidden sm:inline group-hover:text-gray-700 dark:group-hover:text-gray-300 transition-colors duration-300">
-              React
+           
+            <span className="font-bold text-xl text-black dark:text-white  sm:inline group-hover:text-gray-700 dark:group-hover:text-gray-300 transition-colors duration-300">
+          Book Store
             </span>
           </Link>
-
+</div>
+<div className='flex'>
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-8">
             {navLinks.map((link) => (
@@ -75,7 +75,7 @@ export default function Navbar() {
                 placeholder="Search..."
                 onFocus={() => setSearchFocus(true)}
                 onBlur={() => setSearchFocus(false)}
-                className="w-full px-4 py-2 bg-gray-100 dark:bg-slate-800 text-black dark:text-white rounded-lg border border-gray-300 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white transition-all duration-300 placeholder-gray-500 dark:placeholder-gray-400"
+                className="w-full px-8 py-2 bg-gray-100 dark:bg-slate-800 text-black dark:text-white rounded-lg border border-gray-300 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white transition-all duration-300 placeholder-gray-500 dark:placeholder-gray-400"
               />
               <Search className="absolute right-3 top-2.5 w-5 h-5 text-gray-500 dark:text-gray-400 pointer-events-none" />
             </div>
@@ -119,6 +119,7 @@ export default function Navbar() {
               )}
             </button>
           </div>
+        </div>
         </div>
 
         {/* Mobile Navigation */}
