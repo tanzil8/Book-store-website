@@ -38,7 +38,7 @@ export default function Navbar() {
 
   return (
     <nav className="sticky top-0 z-50 bg-white dark:bg-slate-950 border-b border-gray-200 dark:border-slate-800 shadow-sm transition-colors duration-300">
-      <div className="max-w-screen-2xl container mx-auto md:px-20 px-4  ">
+      <div className="max-w-screen-2xl container mx-auto px-2 ">
         <div className="flex justify-between items-center h-24">
           <div>
           {/* Logo */}
@@ -47,7 +47,7 @@ export default function Navbar() {
             className="flex items-center gap-2 group"
           >
            
-            <span className="font-bold text-xl text-black dark:text-white  sm:inline group-hover:text-gray-700 dark:group-hover:text-gray-300 transition-colors duration-300">
+            <span className="font-bold text-3xl text-black dark:text-white  sm:inline group-hover:text-gray-700 dark:group-hover:text-gray-300 transition-colors duration-300">
           Book Store
             </span>
           </Link>
@@ -59,7 +59,7 @@ export default function Navbar() {
               <Link
                 key={link.name}
                 href={link.href}
-                className="text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white font-medium text-sm transition-colors duration-300 relative group"
+                className="text-gray-700 dark:text-gray-300 hover:text-black  dark:hover:text-white font-semibold text-1xl transition-colors duration-300 relative group"
               >
                 {link.name}
                 <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-black dark:bg-white group-hover:w-full transition-all duration-300"></span>
@@ -75,7 +75,7 @@ export default function Navbar() {
                 placeholder="Search..."
                 onFocus={() => setSearchFocus(true)}
                 onBlur={() => setSearchFocus(false)}
-                className="w-full px-8 py-2 bg-gray-100 dark:bg-slate-800 text-black dark:text-white rounded-lg border border-gray-300 dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white transition-all duration-300 placeholder-gray-500 dark:placeholder-gray-400"
+                className="w-full px-8 py-2 bg-gray-100 dark:bg-slate-800 text-black dark:text-white rounded-lg border-none dark:border-slate-700 focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white transition-all duration-300 placeholder-gray-500 dark:placeholder-gray-400"
               />
               <Search className="absolute right-3 top-2.5 w-5 h-5 text-gray-500 dark:text-gray-400 pointer-events-none" />
             </div>
@@ -91,13 +91,13 @@ export default function Navbar() {
             {/* Theme Toggle */}
             <button
               onClick={toggleTheme}
-              className="text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-slate-800 transition-all duration-300 transform hover:scale-110"
+              className="text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white p-1 rounded-lg hover:bg-gray-100 dark:hover:bg-slate-800 transition-all duration-300 transform hover:scale-110"
               aria-label="Toggle theme"
             >
               {isDark ? (
-                <Sun className="w-5 h-5" />
+                <Sun className="w-7 h-7" />
               ) : (
-                <Moon className="w-5 h-5" />
+                <Moon className="w-7 h-7" />
               )}
             </button>
 
