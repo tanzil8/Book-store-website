@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Image } from 'lucide-react';
 
 
 export function EmailBanner() {
@@ -19,20 +19,20 @@ export function EmailBanner() {
 
   return (
     <div className="w-full bg-white">
-      <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center min-h-[80vh]">
+      <div className="max-w-screen-2xl container mx-auto px-2">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 items-center min-h-[60vh]">
 
           {/* Left Content */}
-          <div className="flex flex-col justify-center py-12">
+          <div className="flex flex-col justify-center py-12 text-center lg:text-left items-center lg:items-start">
             <div className="max-w-lg space-y-6">
 
               <div>
-                <h1 className="text-4xl sm:text-5xl font-bold text-black mb-4">
-                  Stay ahead with amazing updates
+                <h1 className=" text-2xl sm:text-3xl md:text-3xl lg:text-4xl font-bold text-black mb-4 leading-tight ">
+                 Hello, Welcomes here to lern <br />
+                 some thing new every day
                 </h1>
-                <p className="text-gray-600 text-sm leading-relaxed">
-                  Subscribe to our newsletter and never miss out on the latest insights,
-                  tips, and exclusive content delivered straight to your inbox.
+                <p className="text-xs sm:text-xl md:text-xl lg:text-xl font-medium mb-4 leading-tight text-gray-800 ">
+                  Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nihil expedita illum iure? Modi odit doloremque nemo exercitationem beatae, placeat illo! Explicabo ex modi eius cupiditate minima sunt placeat delectus quod!
                 </p>
               </div>
 
@@ -70,16 +70,20 @@ export function EmailBanner() {
           </div>
 
           {/* Right Image */}
-          <div className="relative w-full  rounded-xl overflow-hidden">
-            <image
-              src="/banner-image.jpg"
-              alt="Newsletter banner"
-              fill
-              className="object-cover"
-              priority
-            />
-          </div>
-
+        {/* Right Image */}
+<div className="relative w-full rounded-xl overflow-hidden flex justify-center">
+  <svg
+    viewBox="0 0 500 500"
+    className="w-full max-w-md sm:max-w-lg lg:max-w-xl h-auto"
+    preserveAspectRatio="xMidYMid meet"
+  >
+    <image
+      href="https://png.pngtree.com/png-vector/20230930/ourmid/pngtree-school-materials-clip-art-cartoon-open-book-png-png-image_10147973.png"
+      width="500"
+      height="500"
+    />
+  </svg>
+</div>
         </div>
       </div>
     </div>
