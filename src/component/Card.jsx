@@ -1,185 +1,213 @@
-'use client'
+'use client';
 
-import { useState } from 'react'
-
-import { ChevronDown, Heart, Share2, BookOpen } from 'lucide-react'
-
+import { useState } from 'react';
+import { ChevronRight, BookOpen, MoreHorizontal } from 'lucide-react';
 
 const books = [
   {
     id: 1,
-    title: "Atomic Habits",
-    author: "James Clear",
-    price: "$18.99",
-    image: "https://images-na.ssl-images-amazon.com/images/I/91bYsX41DVL.jpg",
+    title: 'The Midnight Library',
+    author: 'Matt Haig',
+    cover: '📚',
+    year: 2020,
+    rating: 4.8,
   },
   {
     id: 2,
-    title: "The Psychology of Money",
-    author: "Morgan Housel",
-    price: "$15.99",
-    image: "https://images-na.ssl-images-amazon.com/images/I/71UwSHSZRnS.jpg",
+    title: 'Project Hail Mary',
+    author: 'Andy Weir',
+    cover: '🚀',
+    year: 2021,
+    rating: 4.7,
   },
   {
     id: 3,
-    title: "Deep Work",
-    author: "Cal Newport",
-    price: "$14.99",
-    image: "https://images-na.ssl-images-amazon.com/images/I/81WcnNQ-TBL.jpg",
+    title: 'The Silent Patient',
+    author: 'Alex Michaelides',
+    cover: '🔍',
+    year: 2019,
+    rating: 4.5,
   },
   {
     id: 4,
-    title: "Rich Dad Poor Dad",
-    author: "Robert Kiyosaki",
-    price: "$12.99",
-    image: "https://images-na.ssl-images-amazon.com/images/I/81bsw6fnUiL.jpg",
+    title: 'It Ends With Us',
+    author: 'Colleen Hoover',
+    cover: '💔',
+    year: 2016,
+    rating: 4.6,
   },
   {
     id: 5,
-    title: "Think and Grow Rich",
-    author: "Napoleon Hill",
-    price: "$11.99",
-    image: "https://images-na.ssl-images-amazon.com/images/I/71UypkUjStL.jpg",
+    title: 'Atomic Habits',
+    author: 'James Clear',
+    cover: '⚛️',
+    year: 2018,
+    rating: 4.9,
   },
   {
     id: 6,
-    title: "The 48 Laws of Power",
-    author: "Robert Greene",
-    price: "$19.99",
-    image: "https://images-na.ssl-images-amazon.com/images/I/71aG+xDKSYL.jpg",
+    title: 'The Thursday Murder Club',
+    author: 'Richard Osman',
+    cover: '🕵️',
+    year: 2020,
+    rating: 4.7,
   },
   {
     id: 7,
-    title: "The Alchemist",
-    author: "Paulo Coelho",
-    price: "$10.99",
-    image: "https://images-na.ssl-images-amazon.com/images/I/71aFt4+OTOL.jpg",
+    title: 'Educated',
+    author: 'Tara Westover',
+    cover: '✏️',
+    year: 2018,
+    rating: 4.8,
   },
   {
     id: 8,
-    title: "Start With Why",
-    author: "Simon Sinek",
-    price: "$13.99",
-    image: "https://images-na.ssl-images-amazon.com/images/I/71QKQ9mwV7L.jpg",
+    title: 'The House in the Cerulean Sea',
+    author: 'TJ Klune',
+    cover: '🏠',
+    year: 2020,
+    rating: 4.6,
   },
-  {
-    id: 9,
-    title: "Can't Hurt Me",
-    author: "David Goggins",
-    price: "$16.99",
-    image: "https://images-na.ssl-images-amazon.com/images/I/81gTRv2HXrL.jpg",
-  },
-  {
-    id: 10,
-    title: "Ikigai",
-    author: "Héctor García",
-    price: "$9.99",
-    image: "https://images-na.ssl-images-amazon.com/images/I/81l3rZK4lnL.jpg",
-  },
-]
+];
 
 
-export function BookCard({ id, title, author, price, image, rating, reviews }) {
-  const [isExpanded, setIsExpanded] = useState(false)
 
+function BookCard({ book, isShowMore = false }) {
+  const [isHovered, setIsHovered] = useState(false);
+
+  if (isShowMore) {
+    return (
+      <div
+        className="relative group cursor-pointer h-full"
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+      >
+        <div
+          className={`h-full rounded-xl border border-gray-700  from-gray-900 to-gray-800 
+          flex items-center justify-center transition-all duration-300 transform
+          ${isHovered ? 'scale-105 border-gray-500 shadow-lg shadow-gray-900/50' : ''}`}
+        >
+          <div className="flex flex-col items-center gap-3">
+            <MoreHorizontal className="w-8 h-8 text-gray-400" />
+            <span className="text-gray-400 font-medium">Show More</span>
+          </div>
+        </div>
+
+        {isHovered && (
+          <div className="absolute inset-0 rounded-xl  from-gray-800/30 to-transparent opacity-50 transition-opacity duration-300" />
+        )}
+      </div>
+    );
+  }
 
   return (
-    <div className="group relative">
-      {/* Main Card */}
-      <div className="relative overflow-hidden rounded-lg bg-card border border-border shadow-lg transition-all duration-500 ease-out hover:shadow-2xl">
-        {/* Image Container */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-  {books.map((books) => (
-    <div key={books.id} className="group">
-     <div className="relative w-full h-52 sm:h-60 md:h-64 lg:h-72 overflow-hidden bg-muted rounded-lg group">
-  <img
-    src={books.image}
-    alt={books.title}
-    className="w-full h-full object-cover 
-               transition-transform duration-500 
-               group-hover:scale-110
-               grayscale hover:grayscale-0
-               brightness-90 contrast-110"
-  />
+    <div
+      className="relative group cursor-pointer h-full"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      <div
+        className={`h-full rounded-xl border border-gray-700  from-gray-900 via-gray-900 to-gray-800 
+        overflow-hidden transition-all duration-300 transform flex flex-col
+        ${isHovered ? 'scale-105 border-gray-500 shadow-xl shadow-gray-900/60' : ''}`}
+      >
+        {/* Book Cover Area */}
+        <div className="flex-1  from-gray-800 to-gray-900 flex items-center justify-center min-h-48 relative overflow-hidden">
+          <div
+            className={`text-7xl transition-transform duration-300 ${
+              isHovered ? 'scale-110' : 'scale-100'
+            }`}
+          >
+            {book?.cover}
+          </div>
 
-  {/* Overlay */}
-  <div className="absolute inset-0 bg-black/10 
-                  opacity-0 
-                  group-hover:opacity-100 
-                  transition duration-300" />
-</div>
-    </div>
-  ))}
-</div>
-        {/* Content Container */}
-        <div className="relative p-4 transition-all duration-300 group-hover:bg-muted/30">
-          {/* Title */}
-          <h3 className="font-semibold text-card-foreground text-sm line-clamp-2 group-hover:text-primary transition-colors duration-300">
-            {title}
+          {/* Hover overlay effect */}
+          {isHovered && (
+            <div className="absolute inset-0  from-gray-900/60 via-transparent to-transparent opacity-40 transition-opacity duration-300" />
+          )}
+        </div>
+
+        {/* Card Content */}
+        <div className="p-4 flex flex-col ">
+          <h3 className="text-gray-100 font-bold text-sm line-clamp-2 mb-1">
+            {book?.title}
           </h3>
-
-          {/* Author */}
-          <p className="text-xs text-muted-foreground mt-1">by {author}</p>
+          <p className="text-gray-400 text-xs mb-3 line-clamp-1">{book?.author}</p>
 
           {/* Rating */}
-          <div className="flex items-center gap-1 mt-2">
-            <div className="flex">
+          <div className="flex items-center gap-2 mb-3">
+            <div className="flex gap-0.5">
               {[...Array(5)].map((_, i) => (
                 <span
                   key={i}
                   className={`text-xs ${
-                    i < Math.floor(rating)
+                    i < Math.floor(book?.rating || 0)
                       ? 'text-yellow-400'
-                      : 'text-muted'
+                      : 'text-gray-700'
                   }`}
                 >
                   ★
                 </span>
               ))}
             </div>
-            <span className="text-xs text-muted-foreground">({reviews})</span>
+            <span className="text-gray-400 text-xs">{book?.rating}</span>
           </div>
 
-          {/* Price */}
-          <p className="text-lg font-bold text-primary mt-3">{price}</p>
+          {/* Year */}
+          <p className="text-gray-500 text-xs mb-3">{book?.year}</p>
 
-          {/* Action Buttons - Hidden by default, visible on expand */}
+          {/* Hover Action */}
           <div
-            className={`grid grid-cols-2 gap-2 mt-4 overflow-hidden transition-all duration-300 ${
-              isExpanded ? 'max-h-24 opacity-100' : 'max-h-0 opacity-0'
-            }`}
+            className={`flex items-center gap-2 text-gray-400 text-xs font-medium transition-all duration-300 transform
+            ${isHovered ? 'translate-x-0 opacity-100' : 'translate-x-1 opacity-50'}`}
           >
-            <button className="flex items-center justify-center gap-2 bg-primary hover:bg-primary/90 text-primary-foreground py-2 px-3 rounded text-xs font-medium transition-colors duration-200">
-              <Heart className="w-4 h-4" />
-              <span className="hidden sm:inline">Wishlist</span>
-            </button>
-            <button className="flex items-center justify-center gap-2 bg-secondary hover:bg-secondary/80 text-secondary-foreground py-2 px-3 rounded text-xs font-medium transition-colors duration-200">
-              <BookOpen className="w-4 h-4" />
-              <span className="hidden sm:inline">Preview</span>
-            </button>
-            <button className="col-span-2 flex items-center justify-center gap-2 bg-accent hover:bg-accent/90 text-accent-foreground py-2 px-3 rounded text-xs font-medium transition-colors duration-200">
-              <Share2 className="w-4 h-4" />
-              Share
-            </button>
+            <span>Read More</span>
+            <ChevronRight className="w-3 h-3" />
           </div>
-
-          {/* Show More Button */}
-          <button
-            onClick={() => setIsExpanded(!isExpanded)}
-            className="w-full mt-4 flex items-center justify-center gap-2 py-2 px-3 rounded border border-border hover:bg-muted/50 text-card-foreground text-xs font-medium transition-all duration-300 group-hover:border-primary/50"
-          >
-            <span>{isExpanded ? 'Show Less' : 'Show More'}</span>
-            <ChevronDown
-              className={`w-4 h-4 transition-transform duration-300 ${
-                isExpanded ? 'rotate-180' : ''
-              }`}
-            />
-          </button>
         </div>
       </div>
 
-      {/* Hover Glow Effect */}
-      <div className="absolute inset-0 rounded-lg bg-gradient-to-b from-primary/0 via-primary/0 to-primary/0 opacity-0 group-hover:opacity-5 transition-opacity duration-300 pointer-events-none" />
+      {/* Glow effect on hover */}
+      {isHovered && (
+        <div className="absolute -inset-px rounded-xl  from-gray-600 via-gray-500 to-gray-600 opacity-20 blur transition-opacity duration-300 -z-10" />
+      )}
     </div>
-  )
+  );
+}
+
+export default function CardPage() {
+  return (
+    <div className="min-h-screen  text-black py-12 px-6 md:px-12">
+      {/* Header */}
+      <div className="max-w-7xl mx-auto mb-12">
+        <h1 className="text-4xl md:text-5xl font-bold mb-2 text-white">
+          Book Collection
+        </h1>
+        <p className="text-gray-400 text-lg">
+          Explore our curated collection of bestselling novels and non-fiction.
+        </p>
+      </div>
+
+      {/* Cards Grid */}
+      <div className="max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          {/* Regular Books - First 8 */}
+          {books.map((book) => (
+            <BookCard key={book.id} book={book} />
+          ))}
+
+          {/* Show More Card */}
+          <BookCard isShowMore />
+        </div>
+      </div>
+
+      {/* Footer Info */}
+      <div className="max-w-7xl mx-auto mt-16 pt-8 border-t border-gray-800">
+        <p className="text-gray-500 text-sm">
+          Hover over any card to see more details and interactions. The layout is fully
+          responsive and optimized for all device sizes.
+        </p>
+      </div>
+    </div>
+  );
 }
