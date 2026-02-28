@@ -1,7 +1,8 @@
 import React from 'react'
 import Navbar from '../component/Navbar'
 import { EmailBanner } from '../component/Banner'
-import CardPage from '../component/Card'
+import { FeaturedBooks } from '../component/featured-books'
+
 
 
 const Home = () => {
@@ -9,8 +10,8 @@ const Home = () => {
     <div>
       <Navbar/>
       <EmailBanner/>
-    <CardPage/>
-      
+   
+      <FeaturedBooks/>
     </div>
   )
 }
