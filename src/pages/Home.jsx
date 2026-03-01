@@ -1,7 +1,11 @@
 import React from 'react'
 import Navbar from '../component/Navbar'
 import { EmailBanner } from '../component/Banner'
-import { FeaturedBooks } from '../component/featured-books'
+import Footer from '../component/Footer'
+import CartGrid from '../component/cart'
+
+
+
 
 
 
@@ -10,8 +14,9 @@ const Home = () => {
     <div>
       <Navbar/>
       <EmailBanner/>
+    <CartGrid/>
+      <Footer/>
    
-      <FeaturedBooks/>
     </div>
   )
 }
