@@ -64,7 +64,7 @@ const mockItems = [
   },
 ];
 
-export default function CartGrid() {
+export default function BookCart() {
   const [showMore, setShowMore] = useState(false);
 
   // Show 8 cards (2 rows of 4) when expanded, 4 cards (1 row) by default
