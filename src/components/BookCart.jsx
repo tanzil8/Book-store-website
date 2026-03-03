@@ -46,7 +46,7 @@ const mockItems = [
     name: 'Screen Protector',
     price: 14.99,
     image: 'https://imageio.forbes.com/specials-images/imageserve/62d3dce8ff5817162cc4a0f6/0x0.jpg?format=jpg&crop=1380,776,x0,y48,safe&height=900&width=1600&fit=bounds',
-    description: 'Crystal clear display',
+    description: 'Crystal clear display dddddddddddddddddddddddd',
   },
   {
     id: 7,
