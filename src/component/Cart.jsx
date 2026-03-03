@@ -91,13 +91,13 @@ export default function CartGrid() {
         }
 
         .card-hover:hover {
-          border-color: #e2e8f0;
-          box-shadow: 0 20px 40px rgba(100, 116, 139, 0.15);
+          border-color: #cfd1d3;
+          box-shadow: 0 20px 40px rgba(66, 75, 88, 0.15);
           transform: translateY(-4px);
         }
       `}</style>
 
-      <div className="mx-auto max-w-7xl">
+      <div className="max-w-screen-2xl container mx-auto px-2">
         {/* Header */}
         <div className="mb-12">
           <h1 className="text-4xl font-bold text-gray-900 sm:text-5xl">
