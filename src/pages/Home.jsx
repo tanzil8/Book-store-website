@@ -16,7 +16,6 @@ const Home = () => {
       <EmailBanner/>
     <CartGrid/>
       <Footer/>
-   
     </div>
   )
 }
