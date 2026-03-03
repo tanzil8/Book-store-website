@@ -2,7 +2,8 @@ import React from 'react'
 import Navbar from '../components/Navbar'
 import { EmailBanner } from '../components/Banner'
 import Footer from '../components/Footer'
-import CartGrid from "../component/Cart";
+import CartGrid from '../components/cart'
+
 
 
 
