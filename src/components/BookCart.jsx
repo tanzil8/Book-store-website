@@ -1,250 +1,395 @@
-'use client'
+'use client';
 
-import { useState, useRef, useEffect } from 'react'
-import { ChevronLeft, ChevronRight, ShoppingBag, Heart } from 'lucide-react'
-import { Button } from '@/components/ui/button'
+import React, { useState, useEffect } from 'react';
+import { ChevronLeft, ChevronRight, Star, ShoppingCart, Heart } from 'lucide-react';
 
-const Product = [
+
+
+const SAMPLE_PRODUCTS= [
   {
     id: 1,
     name: 'Premium Wireless Headphones',
     price: 129.99,
+    originalPrice: 199.99,
     image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500&h=500&fit=crop',
-    category: 'Electronics',
     rating: 4.8,
+    reviews: 324,
+    badge: '35% OFF',
   },
   {
     id: 2,
-    name: 'Leather Crossbody Bag',
-    price: 89.99,
-    image: 'https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=500&h=500&fit=crop',
-    category: 'Accessories',
+    name: 'Ultra HD Smart Watch',
+    price: 249.99,
+    originalPrice: 399.99,
+    image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500&h=500&fit=crop',
     rating: 4.6,
+    reviews: 512,
+    badge: '37% OFF',
   },
   {
     id: 3,
-    name: 'Smart Watch Ultra',
-    price: 299.99,
-    image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500&h=500&fit=crop',
-    category: 'Electronics',
+    name: 'Professional Camera Lens',
+    price: 599.99,
+    originalPrice: 899.99,
+    image: 'https://images.unsplash.com/photo-1606986628025-35d57e735ae0?w=500&h=500&fit=crop',
     rating: 4.9,
+    reviews: 189,
+    badge: '33% OFF',
   },
   {
     id: 4,
-    name: 'Sunglasses Premium',
-    price: 159.99,
-    image: 'https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=500&h=500&fit=crop',
-    category: 'Accessories',
-    rating: 4.5,
-  },
-  {
-    id: 5,
-    name: 'Camera Pro 4K',
-    price: 449.99,
-    image: 'https://images.unsplash.com/photo-1611532736597-de2d4265fba3?w=500&h=500&fit=crop',
-    category: 'Electronics',
-    rating: 4.9,
-  },
-  {
-    id: 6,
-    name: 'Vintage Wrist Watch',
-    price: 199.99,
-    image: 'https://images.unsplash.com/photo-1523170335258-f875a49a11b4?w=500&h=500&fit=crop',
-    category: 'Accessories',
+    name: 'Portable Bluetooth Speaker',
+    price: 79.99,
+    originalPrice: 129.99,
+    image: 'https://images.unsplash.com/photo-1589003077984-894e133814c9?w=500&h=500&fit=crop',
     rating: 4.7,
+    reviews: 678,
+    badge: '38% OFF',
   },
-]
+];
 
 export default function BookCart() {
-  const [currentIndex, setCurrentIndex] = useState(0)
-  const [favorites, setFavorites] = useState<Set<number>>(new Set())
-  const carouselRef = useRef<HTMLDivElement>(null)
-  const [itemsPerView, setItemsPerView] = useState(4)
+  const [scrollPosition, setScrollPosition] = useState(0);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(true);
+  const [canScrollUp, setCanScrollUp] = useState(false);
+  const [canScrollDown, setCanScrollDown] = useState(true);
+  const [hoveredProduct, setHoveredProduct] = useState(null);
+  const [scrollMode, setScrollMode] = useState<'horizontal' | 'vertical'>('horizontal');
+  const carouselRef = React.useRef(null);
 
-  // Handle responsive items per view
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth < 640) {
-        setItemsPerView(1)
-      } else if (window.innerWidth < 768) {
-        setItemsPerView(2)
-      } else if (window.innerWidth < 1024) {
-        setItemsPerView(3)
+  const checkScroll = () => {
+    if (carouselRef.current) {
+      const { scrollLeft, scrollWidth, clientWidth, scrollTop, scrollHeight, clientHeight } = carouselRef.current;
+      setScrollPosition(scrollLeft);
+      
+      if (scrollMode === 'horizontal') {
+        setCanScrollLeft(scrollLeft > 0);
+        setCanScrollRight(scrollLeft < scrollWidth - clientWidth - 20);
       } else {
-        setItemsPerView(4)
+        setCanScrollUp(scrollTop > 0);
+        setCanScrollDown(scrollTop < scrollHeight - clientHeight - 20);
       }
     }
+  };
 
-    handleResize()
-    window.addEventListener('resize', handleResize)
-    return () => window.removeEventListener('resize', handleResize)
-  }, [])
+  useEffect(() => {
+    checkScroll();
+    window.addEventListener('resize', checkScroll);
+    return () => window.removeEventListener('resize', checkScroll);
+  }, []);
 
-  const nextSlide = () => {
-    setCurrentIndex((prev) => (prev + 1) % Math.ceil(PRODUCTS.length / itemsPerView))
-  }
+  const scroll = (direction => {
+    if (carouselRef.current) {
+      const scrollAmount = 320;
+      
+      if (scrollMode === 'horizontal') {
+        const newScrollLeft =
+          direction === 'left'
+            ? carouselRef.current.scrollLeft - scrollAmount
+            : carouselRef.current.scrollLeft + scrollAmount;
 
-  const prevSlide = () => {
-    setCurrentIndex((prev) =>
-      prev === 0 ? Math.ceil(PRODUCTS.length / itemsPerView) - 1 : prev - 1
-    )
-  }
-
-  const toggleFavorite = (id) => {
-    setFavorites((prev) => {
-      const newFavorites = new Set(prev)
-      if (newFavorites.has(id)) {
-        newFavorites.delete(id)
+        carouselRef.current.scrollTo({
+          left: newScrollLeft,
+          behavior: 'smooth',
+        });
       } else {
-        newFavorites.add(id)
-      }
-      return newFavorites
-    })
-  }
+        const newScrollTop =
+          direction === 'up'
+            ? carouselRef.current.scrollTop - scrollAmount
+            : carouselRef.current.scrollTop + scrollAmount;
 
-  const displayedProducts = PRODUCTS.slice(
-    currentIndex * itemsPerView,
-    currentIndex * itemsPerView + itemsPerView
-  )
+        carouselRef.current.scrollTo({
+          top: newScrollTop,
+          behavior: 'smooth',
+        });
+      }
+
+      setTimeout(checkScroll, 300);
+    }
+  })
 
   return (
-    <div className="min-h-screen  from-gray-50 to-gray-100 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="w-full  from-slate-50 via-white to-slate-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <div className="mb-12">
-          <h1 className="text-4xl sm:text-5xl font-bold text-black mb-2">
-            Featured Collection
-          </h1>
-          <p className="text-gray-600 text-lg">
-            Discover our hand-picked selection of premium products
-          </p>
+        <div className="mb-8 flex items-center justify-between flex-wrap gap-4">
+          <div>
+            <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 tracking-tight">
+              Featured Products
+            </h2>
+            <p className="mt-2 text-slate-600">
+              Handpicked items just for you
+            </p>
+          </div>
+          <div className="flex gap-2 flex-wrap">
+            {/* Scroll Mode Toggle */}
+            <div className="hidden sm:flex gap-2 bg-slate-100 p-1 rounded-full">
+              <button
+                onClick={() => {
+                  setScrollMode('horizontal');
+                  checkScroll();
+                }}
+                className={`px-4 py-2 rounded-full font-semibold transition-all duration-300 ${
+                  scrollMode === 'horizontal'
+                    ? 'bg-blue-500 text-white shadow-md'
+                    : 'text-slate-600 hover:text-slate-900'
+                }`}
+              >
+                Horizontal
+              </button>
+              <button
+                onClick={() => {
+                  setScrollMode('vertical');
+                  checkScroll();
+                }}
+                className={`px-4 py-2 rounded-full font-semibold transition-all duration-300 ${
+                  scrollMode === 'vertical'
+                    ? 'bg-blue-500 text-white shadow-md'
+                    : 'text-slate-600 hover:text-slate-900'
+                }`}
+              >
+                Vertical
+              </button>
+            </div>
+
+            {/* Scroll Buttons */}
+            <div className="hidden sm:flex gap-2">
+              {scrollMode === 'horizontal' ? (
+                <>
+                  <button
+                    onClick={() => scroll('left')}
+                    disabled={!canScrollLeft}
+                    className={`p-2 rounded-full transition-all duration-300 ${
+                      canScrollLeft
+                        ? 'bg-blue-500 hover:bg-blue-600 text-white shadow-lg hover:shadow-xl'
+                        : 'bg-slate-200 text-slate-400 cursor-not-allowed'
+                    }`}
+                    aria-label="Scroll left"
+                  >
+                    <ChevronLeft className="w-6 h-6" />
+                  </button>
+                  <button
+                    onClick={() => scroll('right')}
+                    disabled={!canScrollRight}
+                    className={`p-2 rounded-full transition-all duration-300 ${
+                      canScrollRight
+                        ? 'bg-blue-500 hover:bg-blue-600 text-white shadow-lg hover:shadow-xl'
+                        : 'bg-slate-200 text-slate-400 cursor-not-allowed'
+                    }`}
+                    aria-label="Scroll right"
+                  >
+                    <ChevronRight className="w-6 h-6" />
+                  </button>
+                </>
+              ) : (
+                <>
+                  <button
+                    onClick={() => scroll('up')}
+                    disabled={!canScrollUp}
+                    className={`p-2 rounded-full transition-all duration-300 ${
+                      canScrollUp
+                        ? 'bg-blue-500 hover:bg-blue-600 text-white shadow-lg hover:shadow-xl'
+                        : 'bg-slate-200 text-slate-400 cursor-not-allowed'
+                    }`}
+                    aria-label="Scroll up"
+                  >
+                    <ChevronLeft className="w-6 h-6 rotate-90" />
+                  </button>
+                  <button
+                    onClick={() => scroll('down')}
+                    disabled={!canScrollDown}
+                    className={`p-2 rounded-full transition-all duration-300 ${
+                      canScrollDown
+                        ? 'bg-blue-500 hover:bg-blue-600 text-white shadow-lg hover:shadow-xl'
+                        : 'bg-slate-200 text-slate-400 cursor-not-allowed'
+                    }`}
+                    aria-label="Scroll down"
+                  >
+                    <ChevronRight className="w-6 h-6 rotate-90" />
+                  </button>
+                </>
+              )}
+            </div>
+          </div>
         </div>
 
         {/* Carousel Container */}
-        <div className="relative">
-          {/* Products Grid */}
+        <div className="relative group">
           <div
             ref={carouselRef}
-            className="overflow-hidden"
+            onScroll={checkScroll}
+            className={`gap-4 scrollbar-hide ${
+              scrollMode === 'horizontal'
+                ? 'flex overflow-x-auto overflow-y-hidden pb-4'
+                : 'flex flex-col overflow-y-auto overflow-x-hidden pr-4 max-h-96'
+            }`}
+            style={{ scrollBehavior: 'smooth' }}
           >
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
-              {displayedProducts.map((product) => (
-                <div
-                  key={product.id}
-                  className="group h-full transition-all duration-300"
-                >
-                  <div className="h-full flex flex-col bg-white rounded-2xl shadow-md hover:shadow-2xl overflow-hidden transition-all duration-300 hover:-translate-y-2">
-                    {/* Image Container */}
-                    <div className="relative h-64 sm:h-56 md:h-64 overflow-hidden bg-gray-200">
-                      <img
-                        src={product.image}
-                        alt={product.name}
-                        className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
-                      />
-                      {/* Overlay */}
-                      <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300" />
+            {SAMPLE_PRODUCTS.map((product) => (
+              <div
+                key={product.id}
+                className={` transition-all duration-300 ${
+                  scrollMode === 'horizontal' ? 'w-full sm:w-96' : 'w-full h-auto'
+                }`}
+                onMouseEnter={() => setHoveredProduct(product.id)}
+                onMouseLeave={() => setHoveredProduct(null)}
+              >
+                {/* Card Container */}
+                <div className="h-full bg-white rounded-2xl shadow-md hover:shadow-2xl transition-all duration-500 overflow-hidden border border-slate-100 hover:border-blue-300">
+                  {/* Image Container */}
+                  <div className="relative h-64 sm:h-72 bg-slate-100 overflow-hidden group/image">
+                    <img
+                      src={product.image}
+                      alt={product.name}
+                      className={`w-full h-full object-cover transition-transform duration-500 ${
+                        hoveredProduct === product.id ? 'scale-110' : 'scale-100'
+                      }`}
+                    />
 
-                      {/* Favorite Button */}
-                      <button
-                        onClick={() => toggleFavorite(product.id)}
-                        className="absolute top-3 right-3 bg-white/90 hover:bg-white p-2 rounded-full shadow-lg transition-all duration-300 hover:scale-110"
-                      >
-                        <Heart
-                          className={`w-5 h-5 transition-colors duration-300 ${
-                            favorites.has(product.id)
-                              ? 'fill-red-500 text-red-500'
-                              : 'text-gray-400'
-                          }`}
-                        />
+                    {/* Badge */}
+                    {product.badge && (
+                      <div className="absolute top-3 right-3 bg-red-500 text-white px-3 py-1 rounded-full text-sm font-semibold shadow-lg animate-pulse">
+                        {product.badge}
+                      </div>
+                    )}
+
+                    {/* Overlay Actions */}
+                    <div
+                      className={`absolute inset-0 bg-black/40 flex items-center justify-center gap-3 transition-all duration-300 ${
+                        hoveredProduct === product.id ? 'opacity-100' : 'opacity-0'
+                      }`}
+                    >
+                      <button className="bg-white text-slate-900 p-3 rounded-full hover:bg-blue-500 hover:text-white transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-110">
+                        <Heart className="w-6 h-6" />
                       </button>
-
-                      {/* Category Badge */}
-                      <div className="absolute top-3 left-3 bg-gray-900 text-white px-3 py-1 rounded-full text-xs font-semibold">
-                        {product.category}
-                      </div>
-                    </div>
-
-                    {/* Content */}
-                    <div className="flex-1 p-4 sm:p-5 flex flex-col justify-between">
-                      <div>
-                        <h3 className="text-black font-bold text-base sm:text-lg mb-2 line-clamp-2 group-hover:text-gray-800 transition-colors">
-                          {product.name}
-                        </h3>
-
-                        {/* Rating */}
-                        <div className="flex items-center gap-1 mb-3">
-                          <div className="flex text-yellow-400">
-                            {[...Array(5)].map((_, i) => (
-                              <span key={i} className="text-sm">
-                                {'★'}
-                              </span>
-                            ))}
-                          </div>
-                          <span className="text-gray-600 text-sm ml-1">
-                            {product.rating}
-                          </span>
-                        </div>
-                      </div>
-
-                      {/* Footer */}
-                      <div className="space-y-3">
-                        <div className="text-2xl font-bold text-black">
-                          ${product.price.toFixed(2)}
-                        </div>
-                        <Button
-                          className="w-full bg-gray-900 hover:bg-black text-white font-semibold py-2 transition-all duration-300 rounded-lg flex items-center justify-center gap-2 group/btn"
-                        >
-                          <ShoppingBag className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
-                          Add to Cart
-                        </Button>
-                      </div>
+                      <button className="bg-blue-500 text-white p-3 rounded-full hover:bg-blue-600 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-110 animate-bounce">
+                        <ShoppingCart className="w-6 h-6" />
+                      </button>
                     </div>
                   </div>
+
+                  {/* Content Section */}
+                  <div className="p-5 sm:p-6 space-y-4">
+                    {/* Product Name */}
+                    <h3 className="text-lg sm:text-xl font-semibold text-slate-900 line-clamp-2 hover:text-blue-600 transition-colors">
+                      {product.name}
+                    </h3>
+
+                    {/* Rating */}
+                    <div className="flex items-center gap-2">
+                      <div className="flex items-center gap-1">
+                        {[...Array(5)].map((_, i) => (
+                          <Star
+                            key={i}
+                            className={`w-4 h-4 ${
+                              i < Math.floor(product.rating)
+                                ? 'fill-yellow-400 text-yellow-400'
+                                : 'text-slate-300'
+                            }`}
+                          />
+                        ))}
+                      </div>
+                      <span className="text-sm font-medium text-slate-700">
+                        {product.rating}
+                      </span>
+                      <span className="text-sm text-slate-500">
+                        ({product.reviews})
+                      </span>
+                    </div>
+
+                    {/* Price Section */}
+                    <div className="flex items-center gap-3 py-2">
+                      <span className="text-2xl sm:text-3xl font-bold text-blue-600">
+                        ${product.price.toFixed(2)}
+                      </span>
+                      <span className="text-lg text-slate-400 line-through">
+                        ${product.originalPrice.toFixed(2)}
+                      </span>
+                    </div>
+
+                    {/* Add to Cart Button */}
+                    <button className="w-full  from-blue-500 to-blue-600 text-white py-3 rounded-lg font-semibold hover:from-blue-600 hover:to-blue-700 transition-all duration-300 transform hover:scale-105 active:scale-95 shadow-md hover:shadow-lg flex items-center justify-center gap-2">
+                      <ShoppingCart className="w-5 h-5" />
+                      Add to Cart
+                    </button>
+                  </div>
                 </div>
-              ))}
-            </div>
+              </div>
+            ))}
           </div>
 
-          {/* Navigation Buttons */}
-          {Math.ceil(PRODUCTS.length / itemsPerView) > 1 && (
-            <>
-              <button
-                onClick={prevSlide}
-                className="absolute -left-4 sm:-left-5 top-1/3 z-10 bg-white hover:bg-gray-100 text-black p-2 sm:p-3 rounded-full shadow-lg transition-all duration-300 hover:scale-110 active:scale-95"
-                aria-label="Previous slide"
-              >
-                <ChevronLeft className="w-6 h-6" />
-              </button>
-
-              <button
-                onClick={nextSlide}
-                className="absolute -right-4 sm:-right-5 top-1/3 z-10 bg-white hover:bg-gray-100 text-black p-2 sm:p-3 rounded-full shadow-lg transition-all duration-300 hover:scale-110 active:scale-95"
-                aria-label="Next slide"
-              >
-                <ChevronRight className="w-6 h-6" />
-              </button>
-            </>
-          )}
-
-          {/* Indicators */}
-          <div className="flex justify-center gap-2 mt-8">
-            {[...Array(Math.ceil(PRODUCTS.length / itemsPerView))].map(
-              (_, index) => (
+          {/* Mobile Navigation */}
+          <div className="flex sm:hidden gap-2 mt-4 justify-center flex-wrap">
+            {scrollMode === 'horizontal' ? (
+              <>
                 <button
-                  key={index}
-                  onClick={() => setCurrentIndex(index)}
-                  className={`h-2 transition-all duration-300 rounded-full ${
-                    index === currentIndex
-                      ? 'bg-gray-900 w-8'
-                      : 'bg-gray-300 w-2 hover:bg-gray-400'
+                  onClick={() => scroll('left')}
+                  disabled={!canScrollLeft}
+                  className={`p-2 rounded-full transition-all duration-300 ${
+                    canScrollLeft
+                      ? 'bg-blue-500 hover:bg-blue-600 text-white'
+                      : 'bg-slate-200 text-slate-400 cursor-not-allowed'
                   }`}
-                  aria-label={`Go to slide ${index + 1}`}
-                />
-              )
+                  aria-label="Scroll left"
+                >
+                  <ChevronLeft className="w-5 h-5" />
+                </button>
+                <button
+                  onClick={() => scroll('right')}
+                  disabled={!canScrollRight}
+                  className={`p-2 rounded-full transition-all duration-300 ${
+                    canScrollRight
+                      ? 'bg-blue-500 hover:bg-blue-600 text-white'
+                      : 'bg-slate-200 text-slate-400 cursor-not-allowed'
+                  }`}
+                  aria-label="Scroll right"
+                >
+                  <ChevronRight className="w-5 h-5" />
+                </button>
+              </>
+            ) : (
+              <>
+                <button
+                  onClick={() => scroll('up')}
+                  disabled={!canScrollUp}
+                  className={`p-2 rounded-full transition-all duration-300 ${
+                    canScrollUp
+                      ? 'bg-blue-500 hover:bg-blue-600 text-white'
+                      : 'bg-slate-200 text-slate-400 cursor-not-allowed'
+                  }`}
+                  aria-label="Scroll up"
+                >
+                  <ChevronLeft className="w-5 h-5 rotate-90" />
+                </button>
+                <button
+                  onClick={() => scroll('down')}
+                  disabled={!canScrollDown}
+                  className={`p-2 rounded-full transition-all duration-300 ${
+                    canScrollDown
+                      ? 'bg-blue-500 hover:bg-blue-600 text-white'
+                      : 'bg-slate-200 text-slate-400 cursor-not-allowed'
+                  }`}
+                  aria-label="Scroll down"
+                >
+                  <ChevronRight className="w-5 h-5 rotate-90" />
+                </button>
+              </>
             )}
           </div>
         </div>
       </div>
+
+      {/* Custom Scrollbar Styles */}
+      <style>{`
+        .scrollbar-hide::-webkit-scrollbar {
+          display: none;
+        }
+        .scrollbar-hide {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+        }
+      `}</style>
     </div>
-  )
+  );
 }
