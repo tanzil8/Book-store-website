@@ -45,12 +45,14 @@ export default function Card() {
         <div className="relative">
 
           {/* Left Arrow */}
+            <div className="hidden sm:block">
           <button
             onClick={() => scroll("left")}
             className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white p-3 rounded-full shadow-lg hover:bg-gray-100"
           >
             <ChevronLeft className="w-6 h-6 text-black" />
           </button>
+          </div>
 
           {/* Cards Container */}
           <div
@@ -98,12 +100,14 @@ export default function Card() {
           </div>
 
           {/* Right Arrow */}
+          <div className="hidden sm:block">
           <button
             onClick={() => scroll("right")}
             className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white p-3 rounded-full shadow-lg hover:bg-gray-100"
           >
             <ChevronRight className="w-6 h-6 text-black" />
           </button>
+          </div>
         </div>
 
         {/* Footer */}
