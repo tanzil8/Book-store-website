@@ -1,268 +1,114 @@
 'use client';
+import "../index.css";
 
-import React, { useState } from 'react';
+import React, { useRef } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
-
 export default function Card() {
-  const [scrollPosition, setScrollPosition] = useState(0);
+  const containerRef = useRef(null);
 
-  // Create 10 carousel items
-  const items= Array.from({ length: 10 }, (_, i) => ({
+  const items = Array.from({ length: 10 }, (_, i) => ({
     id: i + 1,
-    title: `Box ${i + 1}`,
-    subtitle: `Item ${i + 1}`,
+    title: `Product ${i + 1}`,
+    price: "$29.99",
+    image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff",
   }));
-
-  const containerRef = React.useRef(null);
 
   const scroll = (direction) => {
     if (!containerRef.current) return;
 
-    const scrollAmount = 350; // Width of one box + gap
+    const container = containerRef.current;
+    const scrollAmount = container.offsetWidth / 3;
+
     const newPosition =
-      direction === 'left'
-        ? Math.max(0, scrollPosition - scrollAmount)
-        : scrollPosition + scrollAmount;
+      direction === "left"
+        ? container.scrollLeft - scrollAmount
+        : container.scrollLeft + scrollAmount;
 
-    containerRef.current.scrollTo({
+    container.scrollTo({
       left: newPosition,
-      behavior: 'smooth',
+      behavior: "smooth",
     });
-
-    setScrollPosition(newPosition);
   };
 
   return (
-    <div className="w-full  from-white to-gray-50 py-12">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="w-full py-12 bg-white">
+      <div className="max-w-screen-2xl container mx-auto px-2">
+
         {/* Header */}
         <div className="mb-8">
-          <h2 className="text-3xl font-bold text-black mb-2">Our Collection</h2>
+          <h2 className="text-3xl font-bold text-black">Our Collection</h2>
           <p className="text-gray-600">Explore our featured items</p>
         </div>
 
-        {/* Carousel Container */}
+        {/* Carousel */}
         <div className="relative">
-          {/* Left Arrow Button */}
+
+          {/* Left Arrow */}
           <button
-            onClick={() => scroll('left')}
-            className="absolute left-0 top-1/2 transform -translate-y-1/2 z-10 bg-white rounded-full p-2 shadow-lg hover:bg-gray-100 transition-colors duration-200 hover:shadow-xl"
-            aria-label="Scroll left"
+            onClick={() => scroll("left")}
+            className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white p-3 rounded-full shadow-lg hover:bg-gray-100"
           >
             <ChevronLeft className="w-6 h-6 text-black" />
           </button>
 
-          {/* Scrollable Container */}
+          {/* Cards Container */}
           <div
             ref={containerRef}
-            className="flex overflow-x-hidden gap-4 scroll-smooth px-16"
-            style={{
-              scrollBehavior: 'smooth',
-            }}
+            className="flex gap-6 overflow-x-auto scroll-smooth px-12 no-scrollbar "
           >
-           
+            {items.map((item) => (
               <div
-                
-                className=" w-80 h-64   from-gray-200 to-gray-300 rounded-lg shadow-md hover:shadow-xl transition-all duration-300 hover:scale-105 hover:from-gray-300 hover:to-gray-400 flex flex-col items-center justify-center p-6 cursor-pointer group"
+                key={item.id}
+                className=" sm:min-w-[48%] lg:min-w-[31%] bg-gray-50 rounded-lg shadow-lg p-6 "
               >
-                <div className="text-center">
-                  <h1 className="text-2xl md:text-3xl font-bold text-black mb-2 group-hover:text-gray-800 transition-colors">
-                   tanzil
-                  </h1>
-                  <p className="text-gray-700 text-sm md:text-base group-hover:text-gray-900 transition-colors">
-                    tanzil
-                  </p>
-                  <div className="mt-4 w-12 h-1 bg-black rounded mx-auto group-hover:w-16 transition-all duration-300"></div>
+                {/* Image */}
+                <div className="relative overflow-hidden rounded-md">
+                  <img
+                    src={item.image}
+                    alt={item.title}
+                    className="object-cover w-full h-60"
+                  />
+
+                  <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 hover:opacity-100 transition">
+                    <button className="bg-white text-black px-6 py-2 rounded-full font-semibold">
+                      View Product
+                    </button>
+                  </div>
+                </div>
+
+                {/* Content */}
+                <h3 className="text-xl font-bold mt-4">{item.title}</h3>
+
+                <p className="text-gray-500 text-sm mt-2">
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                </p>
+
+                <div className="flex items-center justify-between mt-4">
+                  <span className="text-lg font-bold">{item.price}</span>
+
+                  <button className="bg-black text-white px-4 py-2 rounded-full hover:bg-gray-800">
+                    Add to Cart
+                  </button>
                 </div>
               </div>
-              <div
-                
-                className=" w-80 h-64   from-gray-200 to-gray-300 rounded-lg shadow-md hover:shadow-xl transition-all duration-300 hover:scale-105 hover:from-gray-300 hover:to-gray-400 flex flex-col items-center justify-center p-6 cursor-pointer group"
-              >
-                <div className="text-center">
-                  <h1 className="text-2xl md:text-3xl font-bold text-black mb-2 group-hover:text-gray-800 transition-colors">
-                   tanzil
-                  </h1>
-                  <p className="text-gray-700 text-sm md:text-base group-hover:text-gray-900 transition-colors">
-                    tanzil
-                  </p>
-                  <div className="mt-4 w-12 h-1 bg-black rounded mx-auto group-hover:w-16 transition-all duration-300"></div>
-                </div>
-              </div>
-              <div
-                
-                className=" w-80 h-64   from-gray-200 to-gray-300 rounded-lg shadow-md hover:shadow-xl transition-all duration-300 hover:scale-105 hover:from-gray-300 hover:to-gray-400 flex flex-col items-center justify-center p-6 cursor-pointer group"
-              >
-                <div className="text-center">
-                  <h1 className="text-2xl md:text-3xl font-bold text-black mb-2 group-hover:text-gray-800 transition-colors">
-                   tanzil
-                  </h1>
-                  <p className="text-gray-700 text-sm md:text-base group-hover:text-gray-900 transition-colors">
-                    tanzil
-                  </p>
-                  <div className="mt-4 w-12 h-1 bg-black rounded mx-auto group-hover:w-16 transition-all duration-300"></div>
-                </div>
-              </div>
-              <div
-                
-                className=" w-80 h-64   from-gray-200 to-gray-300 rounded-lg shadow-md hover:shadow-xl transition-all duration-300 hover:scale-105 hover:from-gray-300 hover:to-gray-400 flex flex-col items-center justify-center p-6 cursor-pointer group"
-              >
-                <div className="text-center">
-                  <h1 className="text-2xl md:text-3xl font-bold text-black mb-2 group-hover:text-gray-800 transition-colors">
-                   tanzil
-                  </h1>
-                  <p className="text-gray-700 text-sm md:text-base group-hover:text-gray-900 transition-colors">
-                    tanzil
-                  </p>
-                  <div className="mt-4 w-12 h-1 bg-black rounded mx-auto group-hover:w-16 transition-all duration-300"></div>
-                </div>
-              </div>
-              <div
-                
-                className=" w-80 h-64   from-gray-200 to-gray-300 rounded-lg shadow-md hover:shadow-xl transition-all duration-300 hover:scale-105 hover:from-gray-300 hover:to-gray-400 flex flex-col items-center justify-center p-6 cursor-pointer group"
-              >
-                <div className="text-center">
-                  <h1 className="text-2xl md:text-3xl font-bold text-black mb-2 group-hover:text-gray-800 transition-colors">
-                   tanzil
-                  </h1>
-                  <p className="text-gray-700 text-sm md:text-base group-hover:text-gray-900 transition-colors">
-                    tanzil
-                  </p>
-                  <div className="mt-4 w-12 h-1 bg-black rounded mx-auto group-hover:w-16 transition-all duration-300"></div>
-                </div>
-              </div>
-              <div
-                
-                className=" w-80 h-64   from-gray-200 to-gray-300 rounded-lg shadow-md hover:shadow-xl transition-all duration-300 hover:scale-105 hover:from-gray-300 hover:to-gray-400 flex flex-col items-center justify-center p-6 cursor-pointer group"
-              >
-                <div className="text-center">
-                  <h1 className="text-2xl md:text-3xl font-bold text-black mb-2 group-hover:text-gray-800 transition-colors">
-                   tanzil
-                  </h1>
-                  <p className="text-gray-700 text-sm md:text-base group-hover:text-gray-900 transition-colors">
-                    tanzil
-                  </p>
-                  <div className="mt-4 w-12 h-1 bg-black rounded mx-auto group-hover:w-16 transition-all duration-300"></div>
-                </div>
-              </div>
-              <div
-                
-                className=" w-80 h-64   from-gray-200 to-gray-300 rounded-lg shadow-md hover:shadow-xl transition-all duration-300 hover:scale-105 hover:from-gray-300 hover:to-gray-400 flex flex-col items-center justify-center p-6 cursor-pointer group"
-              >
-                <div className="text-center">
-                  <h1 className="text-2xl md:text-3xl font-bold text-black mb-2 group-hover:text-gray-800 transition-colors">
-                   tanzil
-                  </h1>
-                  <p className="text-gray-700 text-sm md:text-base group-hover:text-gray-900 transition-colors">
-                    tanzil
-                  </p>
-                  <div className="mt-4 w-12 h-1 bg-black rounded mx-auto group-hover:w-16 transition-all duration-300"></div>
-                </div>
-              </div>
-              <div
-                
-                className=" w-80 h-64   from-gray-200 to-gray-300 rounded-lg shadow-md hover:shadow-xl transition-all duration-300 hover:scale-105 hover:from-gray-300 hover:to-gray-400 flex flex-col items-center justify-center p-6 cursor-pointer group"
-              >
-                <div className="text-center">
-                  <h1 className="text-2xl md:text-3xl font-bold text-black mb-2 group-hover:text-gray-800 transition-colors">
-                   tanzil
-                  </h1>
-                  <p className="text-gray-700 text-sm md:text-base group-hover:text-gray-900 transition-colors">
-                    tanzil
-                  </p>
-                  <div className="mt-4 w-12 h-1 bg-black rounded mx-auto group-hover:w-16 transition-all duration-300"></div>
-                </div>
-              </div>
-              <div
-                
-                className=" w-80 h-64   from-gray-200 to-gray-300 rounded-lg shadow-md hover:shadow-xl transition-all duration-300 hover:scale-105 hover:from-gray-300 hover:to-gray-400 flex flex-col items-center justify-center p-6 cursor-pointer group"
-              >
-                <div className="text-center">
-                  <h1 className="text-2xl md:text-3xl font-bold text-black mb-2 group-hover:text-gray-800 transition-colors">
-                   tanzil
-                  </h1>
-                  <p className="text-gray-700 text-sm md:text-base group-hover:text-gray-900 transition-colors">
-                    tanzil
-                  </p>
-                  <div className="mt-4 w-12 h-1 bg-black rounded mx-auto group-hover:w-16 transition-all duration-300"></div>
-                </div>
-              </div>
-              <div
-                
-                className=" w-80 h-64   from-gray-200 to-gray-300 rounded-lg shadow-md hover:shadow-xl transition-all duration-300 hover:scale-105 hover:from-gray-300 hover:to-gray-400 flex flex-col items-center justify-center p-6 cursor-pointer group"
-              >
-                <div className="text-center">
-                  <h1 className="text-2xl md:text-3xl font-bold text-black mb-2 group-hover:text-gray-800 transition-colors">
-                   tanzil
-                  </h1>
-                  <p className="text-gray-700 text-sm md:text-base group-hover:text-gray-900 transition-colors">
-                    tanzil
-                  </p>
-                  <div className="mt-4 w-12 h-1 bg-black rounded mx-auto group-hover:w-16 transition-all duration-300"></div>
-                </div>
-              </div>
-              <div
-                
-                className=" w-80 h-64   from-gray-200 to-gray-300 rounded-lg shadow-md hover:shadow-xl transition-all duration-300 hover:scale-105 hover:from-gray-300 hover:to-gray-400 flex flex-col items-center justify-center p-6 cursor-pointer group"
-              >
-                <div className="text-center">
-                  <h1 className="text-2xl md:text-3xl font-bold text-black mb-2 group-hover:text-gray-800 transition-colors">
-                   tanzil
-                  </h1>
-                  <p className="text-gray-700 text-sm md:text-base group-hover:text-gray-900 transition-colors">
-                    tanzil
-                  </p>
-                  <div className="mt-4 w-12 h-1 bg-black rounded mx-auto group-hover:w-16 transition-all duration-300"></div>
-                </div>
-              </div>
-              <div
-                
-                className=" w-80 h-64   from-gray-200 to-gray-300 rounded-lg shadow-md hover:shadow-xl transition-all duration-300 hover:scale-105 hover:from-gray-300 hover:to-gray-400 flex flex-col items-center justify-center p-6 cursor-pointer group"
-              >
-                <div className="text-center">
-                  <h1 className="text-2xl md:text-3xl font-bold text-black mb-2 group-hover:text-gray-800 transition-colors">
-                   tanzil
-                  </h1>
-                  <p className="text-gray-700 text-sm md:text-base group-hover:text-gray-900 transition-colors">
-                    tanzil
-                  </p>
-                  <div className="mt-4 w-12 h-1 bg-black rounded mx-auto group-hover:w-16 transition-all duration-300"></div>
-                </div>
-              </div>
-              <div
-                
-                className=" w-80 h-64   from-gray-200 to-gray-300 rounded-lg shadow-md hover:shadow-xl transition-all duration-300 hover:scale-105 hover:from-gray-300 hover:to-gray-400 flex flex-col items-center justify-center p-6 cursor-pointer group"
-              >
-                <div className="text-center">
-                  <h1 className="text-2xl md:text-3xl font-bold text-black mb-2 group-hover:text-gray-800 transition-colors">
-                   tanzil
-                  </h1>
-                  <p className="text-gray-700 text-sm md:text-base group-hover:text-gray-900 transition-colors">
-                    tanzil
-                  </p>
-                  <div className="mt-4 w-12 h-1 bg-black rounded mx-auto group-hover:w-16 transition-all duration-300"></div>
-                </div>
-              </div>
-          
+            ))}
           </div>
 
-          {/* Right Arrow Button */}
+          {/* Right Arrow */}
           <button
-            onClick={() => scroll('right')}
-            className="absolute right-0 top-1/2 transform -translate-y-1/2 z-10 bg-white rounded-full p-2 shadow-lg hover:bg-gray-100 transition-colors duration-200 hover:shadow-xl"
-            aria-label="Scroll right"
+            onClick={() => scroll("right")}
+            className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white p-3 rounded-full shadow-lg hover:bg-gray-100"
           >
             <ChevronRight className="w-6 h-6 text-black" />
           </button>
         </div>
 
-        {/* Responsive Info */}
-        <div className="mt-8 text-center">
-          <p className="text-gray-600 text-sm">
-            Total Items: <span className="font-bold text-black">{items.length}</span>
-          </p>
+        {/* Footer */}
+        <div className="mt-8 text-center text-sm text-gray-600">
+          Total Items: <span className="font-bold">{items.length}</span>
         </div>
+
       </div>
     </div>
   );
