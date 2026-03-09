@@ -55,39 +55,41 @@ export default function Card() {
           {/* Cards Container */}
           <div
             ref={containerRef}
-            className="flex gap-6 overflow-x-auto scroll-smooth px-12 no-scrollbar "
+            className="flex gap-6 overflow-x-auto scroll-smooth px-4 sm:px-12 no-scrollbar"
           >
             {items.map((item) => (
               <div
                 key={item.id}
-                className=" sm:min-w-[48%] lg:min-w-[31%] bg-gray-50 rounded-lg shadow-lg p-6 "
+                className="min-w-full sm:min-w-[48%] lg:min-w-[31%] 
+                           max-[444px]:p-3 max-[444px]:rounded-md
+                           bg-gray-50 rounded-lg shadow-lg p-6"
               >
                 {/* Image */}
                 <div className="relative overflow-hidden rounded-md">
                   <img
                     src={item.image}
                     alt={item.title}
-                    className="object-cover w-full h-60"
+                    className="object-cover w-full h-60 max-[444px]:h-40"
                   />
 
                   <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 hover:opacity-100 transition">
-                    <button className="bg-white text-black px-6 py-2 rounded-full font-semibold">
+                    <button className="bg-white text-black px-6 py-2 rounded-full font-semibold max-[444px]:px-4 max-[444px]:py-1">
                       View Product
                     </button>
                   </div>
                 </div>
 
                 {/* Content */}
-                <h3 className="text-xl font-bold mt-4">{item.title}</h3>
+                <h3 className="text-xl max-[444px]:text-base font-bold mt-4">{item.title}</h3>
 
-                <p className="text-gray-500 text-sm mt-2">
+                <p className="text-gray-500 text-sm max-[444px]:text-xs mt-2">
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                 </p>
 
                 <div className="flex items-center justify-between mt-4">
-                  <span className="text-lg font-bold">{item.price}</span>
+                  <span className="text-lg font-bold max-[444px]:text-base">{item.price}</span>
 
-                  <button className="bg-black text-white px-4 py-2 rounded-full hover:bg-gray-800">
+                  <button className="bg-black text-white px-4 py-2 rounded-full hover:bg-gray-800 max-[444px]:px-3 max-[444px]:py-1">
                     Add to Cart
                   </button>
                 </div>
