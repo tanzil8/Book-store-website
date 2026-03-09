@@ -17,6 +17,8 @@ export function EmailBanner() {
     }
   };
 
+ 
+
   return (
     <div className="w-full bg-white">
       <div className="max-w-screen-2xl container mx-auto px-2">
