@@ -8,27 +8,11 @@ import { Link } from "react-router-dom";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
-  const [isDark, setIsDark] = useState(false);
+ 
   const [searchFocus, setSearchFocus] = useState(false);
 
-  useEffect(() => {
-    // Check initial theme
-    const isDarkMode = document.documentElement.classList.contains("dark");
-    setIsDark(isDarkMode);
-  }, []);
+  
 
-  const toggleTheme = () => {
-    const html = document.documentElement;
-    if (isDark) {
-      html.classList.remove("dark");
-      localStorage.setItem("theme", "light");
-      setIsDark(false);
-    } else {
-      html.classList.add("dark");
-      localStorage.setItem("theme", "dark");
-      setIsDark(true);
-    }
-  };
 
   const navLinks = [
     { name: "Home", href: "/" },
@@ -87,17 +71,7 @@ export default function Navbar() {
             
 
               {/* Theme Toggle */}
-              <button
-                onClick={toggleTheme}
-                className="text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white p-1 rounded-lg hover:bg-gray-100 dark:hover:bg-slate-800 transition-all duration-300 transform hover:scale-110"
-                aria-label="Toggle theme"
-              >
-                {isDark ? (
-                  <Sun className="w-7 h-7" />
-                ) : (
-                  <Moon className="w-7 h-7" />
-                )}
-              </button>
+             
 
               {/* Login Button */}
               <button className="hidden lg:flex items-center gap-2 px-4 py-2 bg-black dark:bg-white text-white dark:text-black rounded-lg font-medium hover:shadow-lg hover:scale-105 transition-all duration-300 group">
@@ -146,8 +120,10 @@ export default function Navbar() {
             </div>
             <div className="px-4 pt-2">
               <button className="w-full flex items-center justify-center gap-2 px-4 py-2 bg-black dark:bg-white text-white dark:text-black rounded-lg font-medium hover:shadow-lg transition-all duration-300">
+              <Link to="/login">
                 <LogIn className="w-4 h-4" />
                 <span>Login</span>
+              </Link>
               </button>
             </div>
           </div>
