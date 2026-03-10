@@ -5,14 +5,10 @@ import { useState, useEffect } from "react";
 import { Menu, X, Search, Moon, Sun, LogIn } from "lucide-react";
 import { Link } from "react-router-dom";
 
-
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
- 
+
   const [searchFocus, setSearchFocus] = useState(false);
-
-  
-
 
   const navLinks = [
     { name: "Home", href: "/" },
@@ -55,7 +51,6 @@ export default function Navbar() {
               >
                 <input
                   type="text"
-                  
                   placeholder="Search..."
                   onFocus={() => setSearchFocus(true)}
                   onBlur={() => setSearchFocus(false)}
@@ -68,16 +63,16 @@ export default function Navbar() {
             {/* Right Side Icons */}
             <div className="flex items-center gap-4 sm:gap-6">
               {/* Mobile Search */}
-            
 
               {/* Theme Toggle */}
-             
 
               {/* Login Button */}
-              <button className="hidden lg:flex items-center gap-2 px-4 py-2 bg-black dark:bg-white text-white dark:text-black rounded-lg font-medium hover:shadow-lg hover:scale-105 transition-all duration-300 group">
+              <Link to="/login" className="hidden lg:flex items-center gap-2 px-4 py-2 bg-black dark:bg-white text-white dark:text-black rounded-lg font-medium hover:shadow-lg hover:scale-105 transition-all duration-300 group">
+             
                 <LogIn className="w-4 h-4 group-hover:translate-x-0.5 transition-transform duration-300" />
                 <span>Login</span>
-              </button>
+              
+              </Link>
 
               {/* Mobile Menu Button */}
               <button
@@ -119,12 +114,13 @@ export default function Navbar() {
               </div>
             </div>
             <div className="px-4 pt-2">
-              <button className="w-full flex items-center justify-center gap-2 px-4 py-2 bg-black dark:bg-white text-white dark:text-black rounded-lg font-medium hover:shadow-lg transition-all duration-300">
-              <Link to="/login">
+              <Link
+                to="/login"
+                className="w-full flex items-center justify-center gap-2 px-4 py-2 bg-black dark:bg-white text-white dark:text-black rounded-lg font-medium hover:shadow-lg transition-all duration-300"
+              >
                 <LogIn className="w-4 h-4" />
                 <span>Login</span>
               </Link>
-              </button>
             </div>
           </div>
         )}

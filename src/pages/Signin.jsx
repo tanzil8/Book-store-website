@@ -9,26 +9,35 @@ import { Eye, EyeOff, Mail, Lock, User } from 'lucide-react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { Link } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
 
 
 export function Signin() {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+    const [formData, setFormData] = useState({});
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setIsLoading(true);
-    
-    // Simulate API call
-    setTimeout(() => {
-      setIsLoading(false);
-      alert(`Signup successful! Welcome ${name} (${email})`);
-    }, 1500);
-  };
+   const {
+    register,
+    handleSubmit,
+  
+    formState: { errors },
+  } = useForm()
+  const onSubmit = (data) => {
+    setIsLoading(true)
 
+    setTimeout(()=>{
+        setIsLoading(false)
+        console.log(data)
+        
+    },1500)
+      setFormData({
+ 
+     email: "",
+     password: ""
+   });
+  }
+ 
   return (
 <>
 <Navbar/>
@@ -48,7 +57,7 @@ export function Signin() {
           </CardHeader>
 
           <CardContent>
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
              
 
               {/* Email Field */}
@@ -65,7 +74,8 @@ export function Signin() {
                     type="email"
                     placeholder="you@example.com"
                     className="pl-10 h-11 border-gray-300 focus:border-gray-700 focus:ring-gray-700 text-gray-900 placeholder-gray-400 transition-all duration-300 hover:border-gray-400 focus:shadow-lg focus:shadow-gray-400/20"
-                    value={email}
+                   {...register("email", { required: true })}
+                   value={formData.email}
                     onChange={(e) => setEmail(e.target.value)}
                     required
                   />
@@ -86,7 +96,8 @@ export function Signin() {
                     type={showPassword ? 'text' : 'password'}
                     placeholder="Enter your password"
                     className="pl-10 pr-10 h-11 border-gray-300 focus:border-gray-700 focus:ring-gray-700 text-gray-900 placeholder-gray-400 transition-all duration-300 hover:border-gray-400 focus:shadow-lg focus:shadow-gray-400/20"
-                    value={password}
+                   {...register("password", { required: true })}
+                   value={formData.password}
                     onChange={(e) => setPassword(e.target.value)}
                     required
                   />
