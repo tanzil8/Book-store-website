@@ -3,7 +3,7 @@
     "id": 1,
     "name": "1984",
     "description": "A dystopian story about a society controlled by constant government surveillance",
-    "price": 0,
+    "price": 23,
     "image": "https://imageio.forbes.com/specials-images/imageserve/62d3dce8ff5817162cc4a0f6/0x0.jpg?format=jpg&crop=1380,776,x0,y48,safe&height=900&width=1600&fit=bounds",
     "category": "paid"
 },
@@ -13,7 +13,7 @@
     "description": "A powerful story about racism, justice, and childhood in the American South.",
     "price": 0,
     "image": "https://imageio.forbes.com/specials-images/imageserve/62d3dce8ff5817162cc4a0f6/0x0.jpg?format=jpg&crop=1380,776,x0,y48,safe&height=900&width=1600&fit=bounds",
-    "category": "paid"
+    "category": "free"
 },
   {
     "id": 1,
@@ -21,7 +21,23 @@
     "description": "A tale of wealth, love, and the American Dream in the 1920s",
     "price": 0,
     "image": "https://imageio.forbes.com/specials-images/imageserve/62d3dce8ff5817162cc4a0f6/0x0.jpg?format=jpg&crop=1380,776,x0,y48,safe&height=900&width=1600&fit=bounds",
+    "category": "free"
+},
+  {
+    "id": 1,
+    "name": "Pride and Prejudice",
+    "description": "A classic romance about Elizabeth Bennet and Mr. Darcy.",
+    "price": 48,
+    "image": "https://imageio.forbes.com/specials-images/imageserve/62d3dce8ff5817162cc4a0f6/0x0.jpg?format=jpg&crop=1380,776,x0,y48,safe&height=900&width=1600&fit=bounds",
     "category": "paid"
+},
+  {
+    "id": 1,
+    "name": "Pride and Prejudice",
+    "description": "A classic romance about Elizabeth Bennet and Mr. Darcy.",
+    "price": 0,
+    "image": "https://imageio.forbes.com/specials-images/imageserve/62d3dce8ff5817162cc4a0f6/0x0.jpg?format=jpg&crop=1380,776,x0,y48,safe&height=900&width=1600&fit=bounds",
+    "category": "free"
 },
   {
     "id": 1,
@@ -51,17 +67,17 @@
     "id": 1,
     "name": "The Alchemist",
     "description": "A shepherd travels far to discover his true destiny.",
-    "price": 0,
+    "price": 79,
     "image": "https://imageio.forbes.com/specials-images/imageserve/62d3dce8ff5817162cc4a0f6/0x0.jpg?format=jpg&crop=1380,776,x0,y48,safe&height=900&width=1600&fit=bounds",
-    "category": "free"
+    "category": "paid"
 },
   {
     "id": 1,
     "name": "The Catcher in the Rye",
     "description": "A teenager struggles with identity and growing up.",
-    "price": 0,
+    "price": 22,
     "image": "https://imageio.forbes.com/specials-images/imageserve/62d3dce8ff5817162cc4a0f6/0x0.jpg?format=jpg&crop=1380,776,x0,y48,safe&height=900&width=1600&fit=bounds",
-    "category": "free"
+    "category": "paid"
 }
 
 ]
