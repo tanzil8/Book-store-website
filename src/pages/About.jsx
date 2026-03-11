@@ -5,6 +5,7 @@ import StorySection from './about/StorySection'
 import FeaturedBooksCarousel from './about/FeaturedBooksCarousel'
 import ValuesSection from './about/ValuesSection'
 import CTASection from './about/CTASection'
+import Footer from '@/components/Footer'
 
 const About = () => {
   return (
@@ -15,6 +16,7 @@ const About = () => {
       <FeaturedBooksCarousel/>
       <ValuesSection/>
       <CTASection/>
+      <Footer/>
       
     </div>
   )
