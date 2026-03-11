@@ -4,6 +4,7 @@ import HeroSection from './about/HeroSection'
 import StorySection from './about/StorySection'
 import FeaturedBooksCarousel from './about/FeaturedBooksCarousel'
 import ValuesSection from './about/ValuesSection'
+import CTASection from './about/CTASection'
 
 const About = () => {
   return (
@@ -13,6 +14,8 @@ const About = () => {
       <StorySection/>
       <FeaturedBooksCarousel/>
       <ValuesSection/>
+      <CTASection/>
+      
     </div>
   )
 }
