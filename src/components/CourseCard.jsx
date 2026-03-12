@@ -1,18 +1,40 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../components/ui/card"
 import { Button } from "../components/ui/button"
 import { Badge } from "../components/ui/badge"
 import { Star } from 'lucide-react'
-import list from "../list.json"
+
+import axios from 'axios'
+
 
 export default function CourseCard() {
 
   const [displayCount, setDisplayCount] = useState(8)
+  const [book, setBook] = useState([])
 
-  const displayedBooks = list.slice(0, displayCount)
-  const hasMore = displayCount < list.length
+  const displayedBooks = book.slice(0, displayCount)
+  const hasMore = displayCount < book.length
+  
+  useEffect(()=>{
+   
+    const getBook = async()=>{
+      
+      try {
+        const res = await axios.get("http://localhost:3000/book")
+        setBook(res.data)
+
+      } catch (error) {
+        console.log(error);
+        
+      }
+   
+    }
+  getBook()
+
+  },[])
+
 
   return (
     <div className="min-h-screen">
