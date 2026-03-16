@@ -10,6 +10,8 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { Link } from 'react-router-dom';
 import { useForm } from "react-hook-form"
+import axios from 'axios';
+
 
 
 export function Signup() {
@@ -22,24 +24,41 @@ export function Signup() {
   const {
     register,
     handleSubmit,
-   
+    reset,
     formState: { errors },
   } = useForm()
 
-  const  onSubmit = (data)=>{
+  const  onSubmit = async(data)=>{
    setIsLoading(true)
+setFormData(data)
+
+const userInfo ={
+fullName: data.fullName,
+email: data.email,
+password: data.password
+
+}
+   
+await axios.post("http://localhost:3000/signup", userInfo)
+.then((res)=>{
+  console.log(res.data);
+  if (res.data) {
+    alert('signup succesful')
+  }
+}).catch((err)=>{
+  console.log(err);
+  
+alert("error", err)
+})
+ reset();
 
    setTimeout(()=>{
       setIsLoading(false)
       console.log(data)
       
+      
     },1500)
-    setFormData({
-     name: "",
-     email: "",
-     password: ""
-   });
-   
+ 
   }
 
  
@@ -75,15 +94,15 @@ export function Signup() {
                     <User className="w-5 h-5" />
                   </div>
                   <Input
-                    id="name"
+                    id="fullName"
                     type="text"
                     placeholder="John Doe"
                     className="pl-10 h-11 border-gray-300 focus:border-gray-700 focus:ring-gray-700 text-gray-900 placeholder-gray-400 transition-all duration-300 hover:border-gray-400 focus:shadow-lg focus:shadow-gray-400/20"
-                                value={formData.name}
+                                value={formData.fullName}
 
                     onChange={(e) => setName(e.target.value)}
                     required
-                    {...register("name", { required: true })}
+                    {...register("fullName",{ required: true })}
                   />
                 </div>
               </div>

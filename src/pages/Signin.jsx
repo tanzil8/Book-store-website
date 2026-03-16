@@ -10,6 +10,7 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
+import axios from 'axios';
 
 
 export function Signin() {
@@ -20,22 +21,40 @@ export function Signin() {
    const {
     register,
     handleSubmit,
-  
+    reset,
     formState: { errors },
   } = useForm()
-  const onSubmit = (data) => {
+  const onSubmit = async(data) => {
     setIsLoading(true)
+setFormData(data)
+
+const userInfo ={
+
+email: data.email,
+password: data.password
+
+}
+   
+await axios.post("http://localhost:3000/login", userInfo)
+.then((res)=>{
+  console.log(res.data);
+  if (res.data) {
+    alert('login succesful')
+  }
+}).catch((err)=>{
+  console.log(err);
+  
+alert("error", err)
+})
+ reset();
 
     setTimeout(()=>{
         setIsLoading(false)
         console.log(data)
         
+       
     },1500)
-      setFormData({
- 
-     email: "",
-     password: ""
-   });
+     
   }
  
   return (
