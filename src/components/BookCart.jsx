@@ -14,7 +14,7 @@ export default function Card() {
   useEffect(() => {
     const getBook = async () => {
       try {
-        const res = await axios.get("http://localhost:3000/book");
+        const res = await axios.get("https://book-store-backend-zfun.vercel.app/book");
         setBook(res.data);
         console.log(res.data);
       } catch (error) {
